@@ -1,5 +1,7 @@
 #Get current unix timestamp
 timestamp=$(date +%s)
+rm -r build
+mkdir build
 cd build
 cmake ..
 cd kernel
