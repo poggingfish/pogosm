@@ -10,7 +10,6 @@ int p_printf(const char *format, ...) {
     va_start(args, format);
     int ret = vprintf(format, args);
     va_end(args);
-    toggle_led();
     return ret;
 }
 #endif
