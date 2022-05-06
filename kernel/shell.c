@@ -2,6 +2,7 @@
 #include "pico/stdlib.h"
 #include "string.h"
 #include "hooks.c"
+#include "utils/reboot.c"
 int BACKSPACE_CHAR = 127;
 #ifndef is_eq
 #define is_eq is_eq
@@ -38,6 +39,9 @@ int parse_command(char shell_buffer[]) {
     }
     else if (is_eq(command_array[0], "cls") || is_eq(command_array[0], "clear")) {
         p_printf("\e[1;1H\e[2J");
+    }
+    else if (is_eq(command_array[0], "reboot")) {
+        reboot();
     }
     else if (is_eq(command_array[0], "")){
     }

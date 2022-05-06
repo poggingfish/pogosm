@@ -1,3 +1,4 @@
+add_subdirectory(utils)
 add_executable(kernel
         kernel.c
         )
@@ -13,6 +14,7 @@ add_library(shell
 add_library(core2
         core2.c
 )
+
 # pull in common dependencies
 target_link_libraries(kernel pico_stdlib)
 target_link_libraries(hooks pico_stdlib)
