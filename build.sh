@@ -1,5 +1,9 @@
 #Get current unix timestamp
 timestamp=$(date +%s)
+#Check for build directory
+if [ ! -d "build" ]; then
+  mkdir build
+fi
 cd build
 cmake ..
 cd kernel
