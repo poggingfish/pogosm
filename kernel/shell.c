@@ -3,6 +3,8 @@
 #include "string.h"
 #include "hooks.c"
 #include "utils/reboot.c"
+#include "utils/fs.c"
+#include "kernfs.c"
 int BACKSPACE_CHAR = 127;
 #ifndef is_eq
 #define is_eq is_eq
@@ -51,6 +53,12 @@ int parse_command(char shell_buffer[]) {
     else if (is_eq(command_array[0], "dbg")) {
         shell_dbg = !shell_dbg;
         p_printf("Debug mode: %s\n", shell_dbg ? "on" : "off");
+    }
+    else if(is_eq(command_array[0], "read")) {
+        memfs_print(kern_read(atoi(command_array[1])));
+    }
+    else if(is_eq(command_array[0], "write")) {
+        kern_write(command_array[1]);
     }
     else if (is_eq(command_array[0], "")){
     }

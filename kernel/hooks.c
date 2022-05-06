@@ -11,7 +11,6 @@ int p_printf(const char *format, ...) {
     int ret = vprintf(format, args);
     va_end(args);
     //Extra Code Goes Here  
-    
     //End Extra Code
     return ret;
 }

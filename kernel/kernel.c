@@ -6,6 +6,7 @@
 #include "shell.c"
 #include "core2.c"
 #include "utils/fs.c"
+#include "kernfs.c"
 #ifndef major
 #define major major
 uint8_t major = 0;
@@ -15,8 +16,6 @@ uint8_t major = 0;
 #define minor minor
 uint8_t minor = 4;
 #endif
-
-uint8_t ptr = 0;
 int main() {
     
     while (stdio_usb_connected == false) {
@@ -33,11 +32,11 @@ int main() {
     memfs_init();
     p_printf("MemFS initialized\n");
     p_printf("Creating a test file...\n");
-    ptr = memfs_write(ptr, "Hello!");
+    kern_write("Hello World!\n");
     p_printf("Test file created\n");
     //Read the files contents
     p_printf("File contents: ");
-    char * test = memfs_read(0, 6);
+    char * test = kern_read(0);
     memfs_print(test);
     printf("\n");
     printf("\n");
