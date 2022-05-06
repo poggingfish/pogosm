@@ -3,7 +3,6 @@
 #include "hooks.c"
 #include "led.c"
 #include "shell.c"
-
 #ifndef major
 #define major major
 uint8_t major = 0;
@@ -15,10 +14,14 @@ uint8_t minor = 3;
 #endif
 
 int main() {
+    while (stdio_usb_connected == false) {
+        //Wait for USB to be connected
+        sleep_ms(50);
+    }
     toggle_led();
     stdio_init_all();
     p_printf("PogOS Initializing...\n");
-    sleep_ms(1000);
+    sleep_ms(2500);
     p_printf("PogOS v%d.%d\n", major, minor);
     p_printf("PogOS is ready!\n");
     //Start shell

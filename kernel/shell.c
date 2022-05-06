@@ -23,13 +23,26 @@ int parse_command(char shell_buffer[]) {
     }
     command_array[i] = NULL;
     if (is_eq(command_array[0], "set_pin")){
+        //Check if there are enough arguments
+        if (i < 3) {
+            p_printf("Not enough arguments\n");
+            return 1;
+        }
         const uint pin = atoi(command_array[1]);
         //Convert arg 1 to bool
         const bool state = atoi(command_array[2]);
         gpio_init(pin);
         gpio_set_dir(pin, GPIO_OUT);
         gpio_put(pin, state);
-        p_printf("set led to %d\n", state);
+        p_printf("set pin to %d\n", state);
+    }
+    else if (is_eq(command_array[0], "cls") || is_eq(command_array[0], "clear")) {
+        p_printf("\e[1;1H\e[2J");
+    }
+    else if (is_eq(command_array[0], "")){
+    }
+    else{
+        p_printf("Unknown command %s\n", command_array[0]);
     }
 }
 #endif
