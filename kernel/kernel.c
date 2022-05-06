@@ -12,7 +12,7 @@ uint8_t major = 0;
 
 #ifndef minor
 #define minor minor
-uint8_t minor = 3;
+uint8_t minor = 4;
 #endif
 
 int main() {
