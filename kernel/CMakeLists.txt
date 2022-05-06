@@ -14,6 +14,9 @@ add_library(shell
 add_library(core2
         core2.c
 )
+add_library(kernfs      
+        kernfs.c
+)
 
 # pull in common dependencies
 target_link_libraries(kernel pico_stdlib)
@@ -21,6 +24,7 @@ target_link_libraries(hooks pico_stdlib)
 target_link_libraries(led pico_stdlib)
 target_link_libraries(shell pico_stdlib)
 target_link_libraries(core2 pico_stdlib)
+target_link_libraries(kernfs pico_stdlib)
 target_link_libraries(core2 pico_multicore)
 target_link_libraries(kernel pico_multicore)
 pico_enable_stdio_usb(kernel 1)

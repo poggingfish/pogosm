@@ -1,6 +1,6 @@
 //Pico MEMFS - The memory filesystem
 //Stored in RAM. 100KB max. (very small but it works)
-// - Dylan 2022 - PogOS for microcontrollers
+// - Dylan 2022 - PogOSM
 #include <stdio.h>
 #include "pico/stdlib.h" //For malloc() and free()
 #include <string.h>
@@ -27,7 +27,7 @@ int memfs_write(int ptr, char *data){
     for (int i = 0; i < strlen(data); i++) {
         fs[ptr + i] = data[i];
     }
-    uint8_t next_ptr = ptr + strlen(data);
+    int next_ptr = ptr + strlen(data);
     return next_ptr;
 }
 #endif
@@ -40,6 +40,7 @@ char * memfs_read(int ptr, int len){
         data[i] = fs[ptr + i];
     }
     data[len] = '\0';
+    
     return data;
 }
 #endif
