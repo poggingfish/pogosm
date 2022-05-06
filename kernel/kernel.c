@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
-#include "string.h" 
+#include "string.h"
 uint8_t major = 0;
 uint8_t minor = 1;
 int BACKSPACE_CHAR = 127;
@@ -20,8 +20,18 @@ int parse_command(char shell_buffer[]) {
         token = strtok(NULL, " ");
     }
     command_array[i] = NULL;
-    
-
+    if (is_eq(command_array[0], "cls")) {
+        cls();
+    }
+    else if (is_eq(command_array[0], "set_pin")){
+        const uint pin = atoi(command_array[1]);
+        //Convert arg 1 to bool
+        const bool state = atoi(command_array[2]);
+        gpio_init(pin);
+        gpio_set_dir(pin, GPIO_OUT);
+        gpio_put(pin, state);
+        printf("set led to %d\n", state);
+    }
 }
 int shell_init() {
     char shell_buffer[256];
