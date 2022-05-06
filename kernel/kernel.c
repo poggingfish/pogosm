@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "pico/multicore.h"
 #include "hooks.c"
 #include "led.c"
 #include "shell.c"
+#include "core2.c"
 #ifndef major
 #define major major
 uint8_t major = 0;
@@ -18,6 +20,7 @@ int main() {
         //Wait for USB to be connected
         sleep_ms(50);
     }
+    multicore_launch_core1(core2_main);
     toggle_led();
     stdio_init_all();
     p_printf("PogOS Initializing...\n");
