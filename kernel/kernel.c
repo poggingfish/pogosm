@@ -5,6 +5,7 @@
 #include "led.c"
 #include "shell.c"
 #include "core2.c"
+#include "utils/fs.c"
 #ifndef major
 #define major major
 uint8_t major = 0;
@@ -15,7 +16,9 @@ uint8_t major = 0;
 uint8_t minor = 4;
 #endif
 
+uint8_t ptr = 0;
 int main() {
+    
     while (stdio_usb_connected == false) {
         //Wait for USB to be connected
         sleep_ms(50);
@@ -26,6 +29,18 @@ int main() {
     p_printf("PogOS Initializing...\n");
     sleep_ms(2500);
     p_printf("PogOS v%d.%d\n", major, minor);
+    p_printf("MemFS initializing...\n");
+    memfs_init();
+    p_printf("MemFS initialized\n");
+    p_printf("Creating a test file...\n");
+    ptr = memfs_write(ptr, "Hello!");
+    p_printf("Test file created\n");
+    //Read the files contents
+    p_printf("File contents: ");
+    char * test = memfs_read(0, 6);
+    memfs_print(test);
+    printf("\n");
+    printf("\n");
     p_printf("PogOS is ready!\n");
     //Start shell
     toggle_led();

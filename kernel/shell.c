@@ -11,6 +11,11 @@ int is_eq(char *a, char *b) {
 }
 #endif
 
+#ifndef shell_dbg
+#define shell_dbg shell_dbg
+bool shell_dbg = false;
+#endif
+
 #ifndef parse_command
 #define parse_command parse_command
 int parse_command(char shell_buffer[]) {
@@ -43,6 +48,10 @@ int parse_command(char shell_buffer[]) {
     else if (is_eq(command_array[0], "reboot")) {
         reboot();
     }
+    else if (is_eq(command_array[0], "dbg")) {
+        shell_dbg = !shell_dbg;
+        p_printf("Debug mode: %s\n", shell_dbg ? "on" : "off");
+    }
     else if (is_eq(command_array[0], "")){
     }
     else{
@@ -57,9 +66,11 @@ int shell_init() {
     char shell_buffer[256];
     char character;
     int ascii;
+    bool bad_key = false;
     int i = 0;
     p_printf("$ ");
     while (true){
+    bad_key = false;
     //Check if the shell buffer has overflowed
     if (i == 256) {
         p_printf("\nShell buffer overflow!\n");
@@ -70,32 +81,41 @@ int shell_init() {
     }
     //Get one character at a time
     character = getchar();
+    if(shell_dbg){
+        //print the character as an integer
+        p_printf("%d\n", character);
+    }
+    //Check if character is the arrow keys
+
     //Turn character into an int
     ascii = character;
-    shell_buffer[i] = character;
-    putchar(shell_buffer[i]);
-    i++;
-    //Check if the input is a carriage return
-    if (shell_buffer[i-1] == '\r') {
-        shell_buffer[i-1] = '\0';
-        i = 0;
-        p_printf("\n");
-        parse_command(shell_buffer);
-        for (int j = 0; j < 256; j++){
-            shell_buffer[j] = '\0';
+    if (bad_key == false) {
+        shell_buffer[i] = character;
+        putchar(shell_buffer[i]);
+        i++;
+        //Check if the input is a carriage return
+        if (shell_buffer[i-1] == '\r') {
+            shell_buffer[i-1] = '\0';
+            i = 0;
+            p_printf("\n");
+            parse_command(shell_buffer);
+            for (int j = 0; j < 256; j++){
+                shell_buffer[j] = '\0';
+            }
+            p_printf("$ ");
         }
-        p_printf("$ ");
-    }
-    if (ascii == BACKSPACE_CHAR) {
-        if (i-1 < 1) {
+        if (ascii == BACKSPACE_CHAR) {
+            if (i-1 < 1) {
+                i--;
+                p_printf("%c", ascii);
+                continue;
+            }
+            shell_buffer[i-1] = '\0';
             i--;
-            p_printf("%c", ascii);
-            continue;
+            i--;
+            p_printf("\b \b");
         }
-        shell_buffer[i-1] = '\0';
-        i--;
-        i--;
-        p_printf("\b \b");
     }
-}}
+}
+}
 #endif
