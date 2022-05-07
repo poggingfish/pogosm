@@ -4,7 +4,8 @@
 #include "hooks.c"
 #include "led.c"
 #include "shell.c"
-#include "core2.c"
+#include "user/core2.c"
+#include "user/before_boot.c"
 #include "utils/fs.c"
 #include "kernfs.c"
 #ifndef major
@@ -23,6 +24,7 @@ int main() {
         sleep_ms(50);
     }
     multicore_launch_core1(core2_main);
+    before_boot();
     toggle_led();
     stdio_init_all();
     p_printf("PogOS Initializing...\n");
