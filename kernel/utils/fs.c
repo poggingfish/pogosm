@@ -23,7 +23,7 @@ int memfs_init(){
 
 #ifndef memfs_write
 #define memfs_write memfs_write
-int memfs_write(int ptr, char *data){
+uint32_t memfs_write(int ptr, char *data){
     for (int i = 0; i < strlen(data); i++) {
         fs[ptr + i] = data[i];
     }

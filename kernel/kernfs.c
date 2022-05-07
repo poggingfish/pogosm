@@ -7,15 +7,15 @@
 #include <string.h>
 #ifndef ptr
 #define ptr ptr
-int ptr = 0;
+uint32_t ptr = 0;
 #endif
 #ifndef ptrs
 #define ptrs ptrs
-int ptrs[4096];
+uint32_t ptrs[4096];
 #endif
 #ifndef lens
 #define lens lens
-int lens[4096];
+uint32_t lens[4096];
 #endif
 #ifndef ptriter
 #define ptriter ptriter
