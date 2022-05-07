@@ -10,5 +10,9 @@ void core2_main() {
         toggle_led();
         sleep_ms(50);
     }
+    while (1) {
+        toggle_led();
+        sleep_ms(500);
+    }
 } 
 #endif
