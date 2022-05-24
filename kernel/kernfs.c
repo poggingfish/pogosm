@@ -48,4 +48,20 @@ char * kern_read(int ptr){
     char * read = memfs_read(ptrs[ptr], lens[ptr]);
     return read;
 }
+
+#endif
+
+#ifndef kern_delete
+#define kern_delete kern_delete
+int kern_delete(int ptr){
+    memfs_delete_file(ptrs[ptr], lens[ptr]);
+    //Get rid of the pointer in the arrays
+    for (int i = ptr; i < ptriter; i++) {
+        ptrs[i] = ptrs[i + 1];
+        lens[i] = lens[i + 1];
+    }   
+    ptr -= lens[ptriter];
+    ptriter--;
+    return 0;
+}
 #endif

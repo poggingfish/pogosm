@@ -5,6 +5,7 @@
 #include "utils/reboot.c"
 #include "utils/fs.c"
 #include "kernfs.c"
+#include "stdin.c"
 int BACKSPACE_CHAR = 127;
 #ifndef is_eq
 #define is_eq is_eq
@@ -54,11 +55,38 @@ int parse_command(char shell_buffer[]) {
         shell_dbg = !shell_dbg;
         p_printf("Debug mode: %s\n", shell_dbg ? "on" : "off");
     }
+    else if (is_eq(command_array[0], "rm") || is_eq(command_array[0], "del") || is_eq(command_array[0], "delete" )){
+        if (i < 1) {
+            p_printf("Not enough arguments\n");
+            return 1;
+        }
+        kern_delete((int)command_array[1]);
+    }
+
     else if(is_eq(command_array[0], "read")) {
         memfs_print(kern_read(atoi(command_array[1])));
     }
-    else if(is_eq(command_array[0], "write")) {
-        kern_write(command_array[1]);
+    else if (is_eq(command_array[0], "ls")) {
+        //Get the files in the filesystem
+        for (int i = 0; i < ptriter; i++) {
+            p_printf("%d: %s\n", i, kern_read(i));
+        }
+    }
+    else if (is_eq(command_array[0], "write") || is_eq(command_array[0], "echo")) {
+        //Get input
+        p_printf("Enter text: ");
+        char *command_input = input();
+        kern_write(command_input);
+    }
+    else if(is_eq(command_array[0], "led"))
+    {
+        toggle_led();
+        //made by stigl, fixed by poggingfish C2022
+    }
+    else if(is_eq(command_array[0], "reset_fs")){
+        memfs_delete();
+        memfs_init();
+        printf("Filesystem reset\n");
     }
     else if (is_eq(command_array[0], "")){
     }
@@ -71,59 +99,11 @@ int parse_command(char shell_buffer[]) {
 #ifndef shell_init
 #define shell_init shell_init
 int shell_init() {
-    char shell_buffer[256];
-    char character;
-    int ascii;
-    bool bad_key = false;
-    int i = 0;
     p_printf("$ ");
-    while (true){
-    bad_key = false;
-    //Check if the shell buffer has overflowed
-    if (i == 256) {
-        p_printf("\nShell buffer overflow!\n");
-        for (int j = 0; j < 256; j++) {
-            shell_buffer[j] = '\0';
-            i = 0;
-        }
+    while (1){
+        char * command_input = input();
+        parse_command(command_input);
+        printf("$ ");
     }
-    //Get one character at a time
-    character = getchar();
-    if(shell_dbg){
-        //print the character as an integer
-        p_printf("%d\n", character);
-    }
-    //Check if character is the arrow keys
-
-    //Turn character into an int
-    ascii = character;
-    if (bad_key == false) {
-        shell_buffer[i] = character;
-        putchar(shell_buffer[i]);
-        i++;
-        //Check if the input is a carriage return
-        if (shell_buffer[i-1] == '\r') {
-            shell_buffer[i-1] = '\0';
-            i = 0;
-            p_printf("\n");
-            parse_command(shell_buffer);
-            for (int j = 0; j < 256; j++){
-                shell_buffer[j] = '\0';
-            }
-            p_printf("$ ");
-        }
-        if (ascii == BACKSPACE_CHAR) {
-            if (i-1 < 1) {
-                i--;
-                p_printf("%c", ascii);
-                continue;
-            }
-            shell_buffer[i-1] = '\0';
-            i--;
-            i--;
-            p_printf("\b \b");
-        }
-    }
-}
 }
 #endif

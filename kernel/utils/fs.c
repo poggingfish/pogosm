@@ -12,11 +12,11 @@ char* fs;
 int memfs_init(){
     //Reserve 100KB of memory for the filesystem
     fs = (char*) malloc(102400);
-    //Make FS a global variable
     if (fs == NULL) {
-        return -1;
+        return 1;
     }
     //Initialize the filesystem
+    memset(fs, 0, 102400);
     return 0;
 } 
 #endif
@@ -49,6 +49,7 @@ char * memfs_read(int ptr, int len){
 #define memfs_delete memfs_delete
 int memfs_delete(){
     free(fs);
+    fs = NULL;
     return 0;
 }
 #endif
@@ -60,5 +61,14 @@ int memfs_print(char *data){
         putchar(data[i]);
     }
     return 0;
+}
+#endif
+
+#ifndef memfs_delete_file 
+#define memfs_delete_file memfs_delete_file
+void memfs_delete_file(int ptr, int len){
+    for (int i = 0; i < len; i++) {
+        fs[ptr + i] = '\0';
+    }
 }
 #endif
