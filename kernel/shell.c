@@ -9,20 +9,10 @@
 #include "pcolor.c"
 #include "panic.c"
 int BACKSPACE_CHAR = 127;
-#ifndef is_eq
-#define is_eq is_eq
 int is_eq(char *a, char *b) {
     return strcmp(a, b) == 0;
 }
-#endif
-
-#ifndef shell_dbg
-#define shell_dbg shell_dbg
 bool shell_dbg = false;
-#endif
-
-#ifndef parse_command
-#define parse_command parse_command
 int parse_command(char shell_buffer[]) {
     char *command_array[512];
     int i = 0;
@@ -99,10 +89,6 @@ int parse_command(char shell_buffer[]) {
         p_printf("Unknown command %s\n", command_array[0]);
     }
 }
-#endif
-
-#ifndef shell_init
-#define shell_init shell_init
 int shell_init() {
     p_printf(cyan);
     p_printf(bold);
@@ -118,4 +104,3 @@ int shell_init() {
         p_printf(white);
     }
 }
-#endif

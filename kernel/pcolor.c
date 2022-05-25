@@ -1,5 +1,5 @@
 //The color library for pogos
-
+#pragma once
 #include "hooks.c"
 #include <pico/stdlib.h>
 
