@@ -8,15 +8,8 @@
 #include "user/before_boot.c"
 #include "utils/fs.c"
 #include "kernfs.c"
-#ifndef major
-#define major major
 uint8_t major = 0;
-#endif
-
-#ifndef minor
-#define minor minor
 uint8_t minor = 4;
-#endif
 int main() {
     
     while (stdio_usb_connected == false) {
