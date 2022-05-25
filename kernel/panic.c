@@ -3,6 +3,8 @@
 #include "utils/reboot.c"
 #include "pico/multicore.h"
 #include <string.h>
+#ifndef k_panic
+#define k_panic k_panic
 void k_panic(const char *msg) {
     p_printf("\n");
     for (int x = 0; x < strlen(msg)+strlen("Panic:\n"); x++) {
@@ -32,3 +34,4 @@ void k_panic(const char *msg) {
         }
     }
 }
+#endif

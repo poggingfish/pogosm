@@ -6,6 +6,8 @@
 #include "utils/fs.c"
 #include "kernfs.c"
 #include "stdin.c"
+#include "pcolor.c"
+#include "panic.c"
 int BACKSPACE_CHAR = 127;
 #ifndef is_eq
 #define is_eq is_eq
@@ -87,7 +89,10 @@ int parse_command(char shell_buffer[]) {
         memfs_delete();
         memfs_init();
         printf("Filesystem reset\n");
-    }
+    }        
+    else if(is_eq(command_array[0], "panic")){
+        k_panic("This is a test panic");
+    }    
     else if (is_eq(command_array[0], "")){
     }
     else{
@@ -99,11 +104,18 @@ int parse_command(char shell_buffer[]) {
 #ifndef shell_init
 #define shell_init shell_init
 int shell_init() {
-    p_printf("$ ");
+    p_printf(cyan);
+    p_printf(bold);
+    p_printf("$~ ");
+    p_printf(white);
     while (1){
         char * command_input = input();
+        printf(reset);
         parse_command(command_input);
-        printf("$ ");
+        p_printf(cyan);
+        p_printf(bold);
+        p_printf("$~ ");
+        p_printf(white);
     }
 }
 #endif

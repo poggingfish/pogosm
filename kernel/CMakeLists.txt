@@ -21,6 +21,12 @@ add_library(panic
 add_library(stdin
         stdin.c
 )
+add_library(pcolor
+        pcolor.c
+)
+add_library(syscall
+        syscall.c
+)
 # pull in common dependencies
 target_link_libraries(kernel pico_stdlib)
 target_link_libraries(hooks pico_stdlib)
@@ -29,8 +35,12 @@ target_link_libraries(shell pico_stdlib)
 target_link_libraries(kernfs pico_stdlib)
 target_link_libraries(panic pico_stdlib)
 target_link_libraries(stdin pico_stdlib)
+target_link_libraries(pcolor pico_stdlib)
+target_link_libraries(syscall pico_stdlib)
 target_link_libraries(panic pico_multicore)
 target_link_libraries(kernel pico_multicore)
+target_link_libraries(shell pico_multicore)
+target_link_libraries(hooks pico_multicore)
 pico_enable_stdio_usb(kernel 1)
 pico_enable_stdio_uart(kernel 0)
 pico_add_extra_outputs(kernel)
