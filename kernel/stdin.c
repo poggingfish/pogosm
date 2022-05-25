@@ -6,6 +6,8 @@
 char shell_buffer[256];
 #endif
 // ### Stdin library
+#ifndef input
+#define input input
 char * input(){
     for (int i = 0; i < 256; i++) {
         shell_buffer[i] = 0;
@@ -54,3 +56,4 @@ char * input(){
     }
     return shell_buffer; 
 }
+#endif

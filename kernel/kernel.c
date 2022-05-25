@@ -29,7 +29,6 @@ int main() {
     stdio_init_all();
     p_printf("PogOS Initializing...\n");
     sleep_ms(2500);
-    p_printf("PogOS v%d.%d\n", major, minor);
     p_printf("MemFS initializing...\n");
     memfs_init();
     p_printf("MemFS initialized\n");
@@ -38,11 +37,21 @@ int main() {
     p_printf("Test file created\n");
     //Read the files contents
     p_printf("File contents: ");
+    p_printf(kern_read(0));
+    p_printf("\n");
+    memfs_delete();
+    memfs_init();
+    p_printf("All files start at ptr 1\n");
+    p_printf("File 0 is blank\n");
     char * test = kern_read(0);
     memfs_print(test);
     printf("\n");
     printf("\n");
-    p_printf("PogOS is ready!\n");
+    p_printf("|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n");
+    p_printf("|          PogOS is ready!          |\n");
+    p_printf("|    Everything is working fine.    |\n");
+    p_printf("|___________________________________|\n");
+    p_printf("PogOS v%d.%d\n", major, minor);
     //Start shell
     toggle_led();
     shell_init();
