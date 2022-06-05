@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "string.h"
@@ -10,6 +11,7 @@
 #include "panic.c"
 
 int buttonEnabled = 0;
+int buttonPressed = 0;
 int BACKSPACE_CHAR = 127;
 int is_eq(char *a, char *b) {
     return strcmp(a, b) == 0;
