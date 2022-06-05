@@ -12,6 +12,9 @@ void core2_main() {
     }
     while (1) {
         toggle_led();
+        if(!gpio_get(15) && buttonEnabled){
+            p_printf("Button pressed!\n");
+        }
         sleep_ms(500);
     }
 } 
