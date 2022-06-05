@@ -8,6 +8,8 @@
 #include "stdin.c"
 #include "pcolor.c"
 #include "panic.c"
+
+int buttonEnabled = 0;
 int BACKSPACE_CHAR = 127;
 int is_eq(char *a, char *b) {
     return strcmp(a, b) == 0;
@@ -53,6 +55,13 @@ int parse_command(char shell_buffer[]) {
             return 1;
         }
         kern_delete((int)command_array[1]);
+    }
+    else if (is_eq(command_array[0], "button")){
+        p_printf("Starting catching button presses on pin 15\n");
+        gpio_init(15);
+    gpio_set_dir(15, GPIO_IN);
+    gpio_pull_up(15);
+    buttonEnabled = 1;
     }
 
     else if(is_eq(command_array[0], "read")) {
