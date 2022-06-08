@@ -45,6 +45,35 @@ int parse_command(char shell_buffer[]) {
     else if (is_eq(command_array[0], "cls") || is_eq(command_array[0], "clear")) {
         p_printf("\e[1;1H\e[2J");
     }
+    else if(is_eq(command_array[0], "calculate") || is_eq(command_array[0], "calc") || is_eq(command_array[0], "calculator")) {
+        if(i < 3){
+            p_printf("Not enough arguments\nUsage: calculate <number> <operator> <number>\n");
+            return 1;
+        }else{
+            const int num1 = atoi(command_array[1]);
+            const int num2 = atoi(command_array[3]);
+            const char op = command_array[2][0];
+            if(op == '+'){
+                p_printf("%d + %d = %d\n", num1, num2, num1 + num2);}
+            else if(op == '-'){
+                p_printf("%d - %d = %d\n", num1, num2, num1 - num2);}
+            else if(op == '*'){
+                p_printf("%d * %d = %d\n", num1, num2, num1 * num2);}
+            else if(op == '/'){
+                p_printf("%d / %d = %d\n", num1, num2, num1 / num2);}
+            else if(op == '%'){
+                p_printf("%d %% %d = %d\n", num1, num2, num1 % num2);}
+            else{
+                p_printf("Invalid operator\n");
+                return 1;
+            }
+
+        }
+    
+
+
+
+    }
     else if (is_eq(command_array[0], "reboot")) {
         reboot();
     }
@@ -90,7 +119,7 @@ int parse_command(char shell_buffer[]) {
     else if(is_eq(command_array[0], "reset_fs")){
         memfs_delete();
         memfs_init();
-        printf("Filesystem reset\n");
+        p_printf("Filesystem reset\n");
     }        
     else if(is_eq(command_array[0], "panic")){
         k_panic("This is a test panic");
@@ -99,7 +128,7 @@ int parse_command(char shell_buffer[]) {
         led_to_blink = atoi(command_array[1]);
     }    
     else if (is_eq(command_array[0], "credits") || is_eq(command_array[0], "credit")){
-        printf("PoggingFish ©2022 official not moded version\nMIT Licensed\n");
+        p_printf("PoggingFish ©2022 official not moded version\nMIT Licensed\n");
     }
     else if (is_eq(command_array[0], "")){
     }
