@@ -6,5 +6,6 @@
         "compare": "c",
         "multicore.h": "c",
         "stdarg.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

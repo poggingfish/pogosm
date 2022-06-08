@@ -10,6 +10,7 @@
 #include "pcolor.c"
 #include "panic.c"
 
+int led_to_blink = 0;
 int buttonEnabled = 0;
 int buttonPressed = 0;
 int BACKSPACE_CHAR = 127;
@@ -93,9 +94,17 @@ int parse_command(char shell_buffer[]) {
     }        
     else if(is_eq(command_array[0], "panic")){
         k_panic("This is a test panic");
+    }
+    else if (is_eq(command_array[0], "set_repeat_pin")){
+        led_to_blink = atoi(command_array[1]);
     }    
+    else if (is_eq(command_array[0], "credits") || is_eq(command_array[0], "credit")){
+        printf("PoggingFish ©2022 official not moded version\nMIT Licensed\n");
+    }
     else if (is_eq(command_array[0], "")){
     }
+    
+    
     else{
         p_printf("Unknown command %s\n", command_array[0]);
     }
