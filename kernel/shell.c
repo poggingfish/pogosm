@@ -10,6 +10,7 @@
 #include "pcolor.c"
 #include "panic.c"
 
+int button_pin = 15;
 int led_to_blink = 0;
 int buttonEnabled = 0;
 int buttonPressed = 0;
@@ -67,12 +68,7 @@ int parse_command(char shell_buffer[]) {
                 p_printf("Invalid operator\n");
                 return 1;
             }
-
         }
-    
-
-
-
     }
     else if (is_eq(command_array[0], "reboot")) {
         reboot();
@@ -126,14 +122,15 @@ int parse_command(char shell_buffer[]) {
     }
     else if (is_eq(command_array[0], "set_repeat_pin")){
         led_to_blink = atoi(command_array[1]);
+    }
+    else if (is_eq(command_array[0], "set_button_pin")){
+        button_pin = atoi(command_array[1]);
     }    
     else if (is_eq(command_array[0], "credits") || is_eq(command_array[0], "credit")){
         p_printf("PoggingFish ©2022 official not moded version\nMIT Licensed\n");
     }
     else if (is_eq(command_array[0], "")){
     }
-    
-    
     else{
         p_printf("Unknown command %s\n", command_array[0]);
     }
