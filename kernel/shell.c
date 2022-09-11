@@ -43,10 +43,32 @@ int parse_command(char shell_buffer[]) {
         gpio_put(pin, state);
         p_printf("set pin to %d\n", state);
     }
+    else if (is_eq(command_array[0], "set_multiple_pins")){
+        //Check if there are enough arguments
+        if (i < 4) {
+            p_printf("Not enough arguments\n");
+            return 1;
+        }
+        
+        //Get start pin number 
+        const uint pinStart = atoi(command_array[1]);
+        //Get end pin number
+        const uint pinEnd = atoi(command_array[2]);
+        //Convert arg 1 to bool
+        const bool state = atoi(command_array[3]);
+        for (int current_pin = pinStart;current_pin-1 < pinEnd; current_pin++){
+            gpio_init(current_pin);
+            gpio_set_dir(current_pin, GPIO_OUT);
+            gpio_put(current_pin, state);
+            p_printf("set pin %d to %d\n",current_pin, state);    
+        }        
+    }
+    
     else if (is_eq(command_array[0], "cls") || is_eq(command_array[0], "clear")) {
         p_printf("\e[1;1H\e[2J");
     }
-    else if(is_eq(command_array[0], "calculate") || is_eq(command_array[0], "calc") || is_eq(command_array[0], "calculator")) {
+    
+    else if(is_eq(command_array[0], "calculate") || is_eq(command_array[0], "calc") || is_eq(command_array[0], "calculator") || is_eq(command_array[0], "cal")) {
         if(i < 3){
             p_printf("Not enough arguments\nUsage: calculate <number> <operator> <number>\n");
             return 1;
