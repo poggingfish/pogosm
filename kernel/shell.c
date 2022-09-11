@@ -106,14 +106,22 @@ int parse_command(char shell_buffer[]) {
         }
         kern_delete((int)command_array[1]);
     }
-    else if (is_eq(command_array[0], "button")){
+    else if (is_eq(command_array[0], "button_enable")){
         p_printf("Starting catching button presses on pin 15\n");
         gpio_init(15);
     gpio_set_dir(15, GPIO_IN);
     gpio_pull_up(15);
     buttonEnabled = 1;
     }
-
+    else if (is_eq(command_array[0], "button_disable")){
+        if(buttonEnabled){
+            p_printf("Stoping catching button presses on pin 15\n");
+            buttonEnabled =0;
+        }else{
+            p_printf("Button is not enabled\n");
+        }
+        
+    }
     else if(is_eq(command_array[0], "read")) {
         memfs_print(kern_read(atoi(command_array[1])));
     }
