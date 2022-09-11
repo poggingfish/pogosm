@@ -157,8 +157,14 @@ int parse_command(char shell_buffer[]) {
     }
     else if (is_eq(command_array[0], "set_repeat_pin")){
         //Sets pin to repeat in loop
+        if (i < 1) {
+            command_array[1] = "5";
+            return 1;
+        }
         led_to_blink = atoi(command_array[1]);
+        p_printf("Set repeat pin to %d\n", led_to_blink);
     }
+
     else if (is_eq(command_array[0], "disable_repeat_pin")){
         //Disables pin loop 
         gpio_put(led_to_blink,0);
