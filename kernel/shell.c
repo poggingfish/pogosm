@@ -41,7 +41,7 @@ int parse_command(char shell_buffer[]) {
         gpio_init(pin);
         gpio_set_dir(pin, GPIO_OUT);
         gpio_put(pin, state);
-        p_printf("set pin to %d\n", state);
+        p_printf("set pin %d to %d\n", pin, state);
     }
     else if (is_eq(command_array[0], "set_multiple_pins")){
         //Check if there are enough arguments
@@ -49,7 +49,6 @@ int parse_command(char shell_buffer[]) {
             p_printf("Not enough arguments\n");
             return 1;
         }
-        
         //Get start pin number 
         const uint pinStart = atoi(command_array[1]);
         //Get end pin number
@@ -67,9 +66,8 @@ int parse_command(char shell_buffer[]) {
     else if (is_eq(command_array[0], "cls") || is_eq(command_array[0], "clear")) {
         p_printf("\e[1;1H\e[2J");
     }
-    
     else if(is_eq(command_array[0], "calculate") || is_eq(command_array[0], "calc") || is_eq(command_array[0], "calculator") || is_eq(command_array[0], "cal")) {
-        if(i < 3){
+        if(i < 4){
             p_printf("Not enough arguments\nUsage: calculate <number> <operator> <number>\n");
             return 1;
         }else{
@@ -82,7 +80,7 @@ int parse_command(char shell_buffer[]) {
                 p_printf("%d - %d = %d\n", num1, num2, num1 - num2);}
             else if(op == '*'){
                 p_printf("%d * %d = %d\n", num1, num2, num1 * num2);}
-            else if(op == '/'){
+            else if(op == '/' || op == ':' || op == '÷'){
                 p_printf("%d / %d = %d\n", num1, num2, num1 / num2);}
             else if(op == '%'){
                 p_printf("%d %% %d = %d\n", num1, num2, num1 % num2);}
@@ -95,7 +93,11 @@ int parse_command(char shell_buffer[]) {
     else if (is_eq(command_array[0], "reboot")) {
         reboot();
     }
-    else if (is_eq(command_array[0], "dbg")) {
+    else if (is_eq(command_array[0], "help")) {
+        p_printf("https://github.com/poggingfish/pogosm\n");
+    }
+    
+    else if (is_eq(command_array[0], "dbg") || is_eq(command_array[0], "debug")) {
         shell_dbg = !shell_dbg;
         p_printf("Debug mode: %s\n", shell_dbg ? "on" : "off");
     }
@@ -107,13 +109,16 @@ int parse_command(char shell_buffer[]) {
         kern_delete((int)command_array[1]);
     }
     else if (is_eq(command_array[0], "button_enable")){
+        //Enables the button
         p_printf("Starting catching button presses on pin 15\n");
         gpio_init(15);
     gpio_set_dir(15, GPIO_IN);
     gpio_pull_up(15);
     buttonEnabled = 1;
     }
-    else if (is_eq(command_array[0], "button_disable")){
+    
+    else if (is_eq(command_array[0], "disable_button")){
+        //Disables the button
         if(buttonEnabled){
             p_printf("Stoping catching button presses on pin 15\n");
             buttonEnabled =0;
@@ -132,17 +137,17 @@ int parse_command(char shell_buffer[]) {
         }
     }
     else if (is_eq(command_array[0], "write") || is_eq(command_array[0], "echo")) {
-        //Get input
+        //Print input
         p_printf("Enter text: ");
         char *command_input = input();
         kern_write(command_input);
     }
-    else if(is_eq(command_array[0], "led"))
-    {
+    else if(is_eq(command_array[0], "led")){
+        //Toogle LED
         toggle_led();
-        //made by stigl, fixed by poggingfish C2022
     }
     else if(is_eq(command_array[0], "reset_fs")){
+        //Reset the filesystem
         memfs_delete();
         memfs_init();
         p_printf("Filesystem reset\n");
@@ -151,18 +156,29 @@ int parse_command(char shell_buffer[]) {
         k_panic("This is a test panic");
     }
     else if (is_eq(command_array[0], "set_repeat_pin")){
+        //Sets pin to repeat in loop
         led_to_blink = atoi(command_array[1]);
     }
     else if (is_eq(command_array[0], "disable_repeat_pin")){
+        //Disables pin loop 
         gpio_put(led_to_blink,0);
         led_to_blink = 0;
     }
     else if (is_eq(command_array[0], "set_button_pin")){
+        //Sets pin to button
         button_pin = atoi(command_array[1]);
     }    
     else if (is_eq(command_array[0], "credits") || is_eq(command_array[0], "credit")){
+        //Print credits
         p_printf("PoggingFish ©2022 official\nMIT Licensed\n");
     }
+    else if (is_eq(command_array[0], "author")){
+        //Print author
+        p_printf("PoggingFish pogging.fish\n");
+    }
+    else if (is_eq(command_array[0], "sleep")){
+        sleep_ms(atoi(command_array[1]) * 1000);
+    } 
     else if (is_eq(command_array[0], "")){
     }
     else{
