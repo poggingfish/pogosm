@@ -20,3 +20,4 @@
 #### ls - Show all content of filesystem.
 #### reset_fs - Reset filesystem.
 #### panic - Start the panic mode.
+#### set_multiple_pins - Set multiple pins. Usage: set_multiple_pins fromPin toPin state

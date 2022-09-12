@@ -22,8 +22,7 @@ void core2_main() {
                 buttonPressed = 1;
             }
         }
-        if (led_to_blink != 0)
-        {
+        if (led_to_blink != 0){
          gpio_init(led_to_blink);
         gpio_set_dir(led_to_blink, GPIO_OUT);
         gpio_put(led_to_blink, led_rep_status);
