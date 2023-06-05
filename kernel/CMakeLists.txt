@@ -27,6 +27,9 @@ add_library(pcolor
 add_library(syscall
         syscall.c
 )
+add_library(stiglsoftvm
+        ssvm.c
+)
 # pull in common dependencies
 target_link_libraries(kernel pico_stdlib)
 target_link_libraries(hooks pico_stdlib)
@@ -37,6 +40,7 @@ target_link_libraries(panic pico_stdlib)
 target_link_libraries(stdin pico_stdlib)
 target_link_libraries(pcolor pico_stdlib)
 target_link_libraries(syscall pico_stdlib)
+target_link_libraries(stiglsoftvm pico_stdlib)
 target_link_libraries(panic pico_multicore)
 target_link_libraries(kernel pico_multicore)
 target_link_libraries(shell pico_multicore)
