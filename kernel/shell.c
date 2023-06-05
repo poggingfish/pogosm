@@ -149,6 +149,7 @@ int parse_command(char shell_buffer[]) {
     else if(is_eq(command_array[0], "reset_fs")){
         //Reset the filesystem
         memfs_delete();
+        kernfs_delete_delete();
         memfs_init();
         p_printf("Filesystem reset\n");
     }        

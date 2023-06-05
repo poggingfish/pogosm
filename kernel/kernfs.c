@@ -36,3 +36,9 @@ int kern_delete(int ptr){
     ptriter--;
     return 0;
 }
+int kernfs_delete_delete(){
+    ptr = 0;
+    next_ptr = 0;
+    last_ptr = 0;
+    ptriter = 0;
+}

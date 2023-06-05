@@ -33,6 +33,7 @@ int main() {
     p_printf(kern_read(0));
     p_printf("\n");
     memfs_delete();
+    kernfs_delete_delete();
     memfs_init();
     p_printf("All files start at ptr 1\n");
     p_printf("File 0 is blank\n");
