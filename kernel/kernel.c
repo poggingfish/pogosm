@@ -16,6 +16,7 @@ int main() {
         //Wait for USB to be connected
         sleep_ms(50);
     }
+    init_led();
     multicore_launch_core1(core2_main);
     before_boot();
     toggle_led();

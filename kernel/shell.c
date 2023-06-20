@@ -163,6 +163,8 @@ int parse_command(char shell_buffer[]) {
             return 1;
         }
         led_to_blink = atoi(command_array[1]);
+        gpio_init(led_to_blink);
+        gpio_set_dir(led_to_blink, GPIO_OUT);
         p_printf("Set repeat pin to %d\n", led_to_blink);
     }
 

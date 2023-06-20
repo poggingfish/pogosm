@@ -76,6 +76,9 @@ int execute_ssvm_code(){
             case 17:
                 i = reg[0] -1;
                 break;
+            case 18:
+                bytes[reg[0]] = reg[1];
+                break;
             //Stacks not added!
         }
     }
